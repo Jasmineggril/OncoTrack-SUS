@@ -16,7 +16,7 @@ const slides = [
     title: "OncoTrack SUS",
     subtitle:
       "Plataforma inteligente de monitoramento oncológico para transformar dados em decisões mais rápidas, eficientes e humanizadas no Sistema Único de Saúde.",
-    author: "Autora: Jasmine de Sá Araujo",
+    author: "Jasmine de Sá Araujo · Pedro Henrique Bento Martins · Matheus Pontieri de Lemos Silva",
   },
   {
     id: 2,

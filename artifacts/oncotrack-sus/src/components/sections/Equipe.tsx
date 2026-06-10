@@ -1,6 +1,42 @@
 import { motion } from "framer-motion";
 import { Linkedin, Mail } from "lucide-react";
 
+const members = [
+  {
+    initials: "JS",
+    name: "Jasmine de Sá Araujo",
+    role: "Fundadora & Idealizadora",
+    location: "Brasília, DF · Engenharia de Software",
+    bio: "Estudante de Engenharia de Software, desenvolvedora de soluções digitais e idealizadora do OncoTrack SUS. Responsável pela concepção, desenvolvimento do MVP, arquitetura de IA e estratégia de impacto para o Sistema Único de Saúde.",
+    email: "jasminedesaraujo@gmail.com",
+    linkedin: "https://linkedin.com",
+    gradFrom: "from-primary",
+    gradTo: "to-secondary",
+  },
+  {
+    initials: "PH",
+    name: "Pedro Henrique Bento Martins",
+    role: "Cofundador & Desenvolvedor Front-end",
+    location: "Brasília, DF · Engenharia de Software",
+    bio: "Estudante de Engenharia de Software, desenvolvedor de soluções digitais e apaixonado por tecnologia. Um dos idealizadores do OncoTrack SUS, participando da concepção da solução, do desenvolvimento do MVP e da implementação do front-end da aplicação.",
+    email: "pbentomartins4569@gmail.com",
+    linkedin: "https://www.linkedin.com/in/pedro-henrique-bento-martins-7b19a733a",
+    gradFrom: "from-primary",
+    gradTo: "to-violet-500",
+  },
+  {
+    initials: "MP",
+    name: "Matheus Pontieri de Lemos Silva",
+    role: "Co-Founder & Lead Developer",
+    location: "Brasília, DF · Ciências da Computação – UCB",
+    bio: "Desenvolvedor com experiência no Ministério das Relações Exteriores utilizando Microsoft Power Platform (Power Apps e Power Automate). Contribui com expertise em Python, automação de fluxos e integração de sistemas, apoiando a consolidação técnica da solução.",
+    email: "matheus.pontieri@gmail.com",
+    linkedin: "https://www.linkedin.com/in/pontieri",
+    gradFrom: "from-secondary",
+    gradTo: "to-cyan-400",
+  },
+];
+
 export function Equipe() {
   return (
     <section id="equipe" className="py-24">
@@ -30,64 +66,63 @@ export function Equipe() {
             transition={{ delay: 0.2 }}
             className="text-lg text-muted-foreground"
           >
-            Construindo uma solução que une tecnologia e humanidade para transformar o cuidado oncológico no Brasil.
+            Três engenheiros unidos pela missão de transformar o cuidado oncológico no Brasil com tecnologia e propósito.
           </motion.p>
         </div>
 
-        <div className="flex justify-center">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="relative max-w-sm w-full"
-          >
-            {/* Decorative glow */}
-            <div className="absolute -inset-px bg-gradient-to-br from-primary/40 via-secondary/20 to-primary/10 rounded-2xl blur-sm" />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+          {members.map((member, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              className="relative"
+            >
+              {/* Decorative glow */}
+              <div className={`absolute -inset-px bg-gradient-to-br ${member.gradFrom}/30 ${member.gradTo}/10 rounded-2xl blur-sm`} />
 
-            <div className="relative bg-card border border-border rounded-2xl p-8 text-center">
-              {/* Avatar */}
-              <div className="mx-auto mb-6 relative inline-block">
-                <div className="w-24 h-24 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white text-3xl font-bold shadow-lg shadow-primary/40">
-                  JS
+              <div className="relative bg-card border border-border rounded-2xl p-7 text-center h-full flex flex-col">
+                {/* Avatar */}
+                <div className="mx-auto mb-5 relative inline-block">
+                  <div className={`w-20 h-20 rounded-full bg-gradient-to-br ${member.gradFrom} ${member.gradTo} flex items-center justify-center text-white text-2xl font-bold shadow-lg`}>
+                    {member.initials}
+                  </div>
+                  <div className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-secondary border-2 border-card flex items-center justify-center">
+                    <span className="text-white text-[10px] font-bold">{index + 1}</span>
+                  </div>
                 </div>
-                <div className="absolute -bottom-1 -right-1 w-7 h-7 rounded-full bg-secondary border-2 border-card flex items-center justify-center">
-                  <span className="text-white text-xs font-bold">1</span>
+
+                <h3 className="text-lg font-bold mb-1 leading-tight">{member.name}</h3>
+                <p className="text-xs font-semibold text-primary mb-1 tracking-wide">{member.role}</p>
+                <p className="text-xs text-muted-foreground mb-4">{member.location}</p>
+
+                <p className="text-muted-foreground text-xs leading-relaxed mb-5 flex-1">
+                  {member.bio}
+                </p>
+
+                <div className="flex items-center justify-center gap-2 mt-auto">
+                  <a
+                    href={`mailto:${member.email}`}
+                    className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-primary transition-colors px-3 py-1.5 rounded-lg bg-muted/50 hover:bg-primary/10"
+                  >
+                    <Mail className="h-3.5 w-3.5" />
+                    E-mail
+                  </a>
+                  <a
+                    href={member.linkedin}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-primary transition-colors px-3 py-1.5 rounded-lg bg-muted/50 hover:bg-primary/10"
+                  >
+                    <Linkedin className="h-3.5 w-3.5" />
+                    LinkedIn
+                  </a>
                 </div>
               </div>
-
-              <h3 className="text-2xl font-bold mb-1">Jasmine de Sá Araujo</h3>
-              <p className="text-sm font-semibold text-primary mb-1 tracking-wide">
-                Fundadora &amp; Idealizadora do OncoTrack SUS
-              </p>
-              <p className="text-xs text-muted-foreground mb-5">Brasília, DF · Engenharia de Software</p>
-
-              <p className="text-muted-foreground text-sm leading-relaxed mb-6">
-                Estudante de Engenharia de Software, desenvolvedora de soluções digitais e idealizadora do OncoTrack SUS. Responsável pela concepção, desenvolvimento do MVP, arquitetura de IA e estratégia de impacto para o Sistema Único de Saúde.
-              </p>
-
-              <div className="flex items-center justify-center gap-3">
-                <a
-                  href="mailto:jasminedesaraujo@gmail.com"
-                  className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors px-4 py-2 rounded-lg bg-muted/50 hover:bg-primary/10"
-                  data-testid="link-email-jasmine"
-                >
-                  <Mail className="h-4 w-4" />
-                  E-mail
-                </a>
-                <a
-                  href="https://linkedin.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors px-4 py-2 rounded-lg bg-muted/50 hover:bg-primary/10"
-                  data-testid="link-linkedin-jasmine"
-                >
-                  <Linkedin className="h-4 w-4" />
-                  LinkedIn
-                </a>
-              </div>
-            </div>
-          </motion.div>
+            </motion.div>
+          ))}
         </div>
       </div>
     </section>
