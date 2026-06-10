@@ -7,10 +7,10 @@ import {
 import { Button } from "@/components/ui/button";
 
 const POWER_APPS_DIRECT_URL =
-  "https://apps.powerapps.com/play/e/ae5cad1c-bf33-e2aa-a62d-32db7d0984e2/a/e0bb0113-4f0a-4b60-b60b-73122ae79eba";
+  "https://apps.powerapps.com/play/e/ae5cad1c-bf33-e2aa-a62d-32db7d0984e2/a/e0bb0113-4f0a-4b60-b60b-73122ae79eba?tenantId=c7eb8b68-77dd-4f4d-922e-6802cea85fa6&hint=4ffdfc9c-47dd-4a3f-aa2a-e283eb6a69fd&sourcetime=1781105455149";
 
 const POWER_APPS_EMBED_URL =
-  "https://apps.powerapps.com/play/e/ae5cad1c-bf33-e2aa-a62d-32db7d0984e2/a/e0bb0113-4f0a-4b60-b60b-73122ae79eba?source=iframe&hidenavbar=true";
+  "https://apps.powerapps.com/play/e/ae5cad1c-bf33-e2aa-a62d-32db7d0984e2/a/e0bb0113-4f0a-4b60-b60b-73122ae79eba?tenantId=c7eb8b68-77dd-4f4d-922e-6802cea85fa6&hint=4ffdfc9c-47dd-4a3f-aa2a-e283eb6a69fd&sourcetime=1781105455149&source=iframe&hidenavbar=true";
 
 const modules = [
   { icon: <Users className="h-5 w-5" />, title: "Pacientes", iconColor: "text-primary", desc: "Registros com suspeita ou diagnóstico oncológico" },
