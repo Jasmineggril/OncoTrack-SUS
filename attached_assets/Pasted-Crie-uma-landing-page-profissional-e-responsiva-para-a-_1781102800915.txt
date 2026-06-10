@@ -1,0 +1,101 @@
+Crie uma landing page profissional e responsiva para a healthtech "OncoTrack SUS".
+
+Objetivo do site:
+Apresentar o OncoTrack SUS como uma plataforma inteligente de monitoramento oncológico para o Sistema Único de Saúde, com foco em rastreamento, priorização e acompanhamento de pacientes com suspeita ou diagnóstico de câncer.
+
+Estilo visual:
+
+* Design moderno de healthtech
+* Cores: azul escuro, azul claro, verde saúde e branco
+* Layout limpo, tecnológico e confiável
+* Responsivo para computador e celular
+* Animações suaves
+* Cards com bordas arredondadas
+* Ícones de saúde, dados, IA, dashboard e monitoramento
+
+Estrutura da página:
+
+1. Hero section
+
+   * Logo ou nome: OncoTrack SUS
+   * Slogan: "Inteligência para acelerar o cuidado oncológico"
+   * Texto curto: "Plataforma inteligente que utiliza IA, análise preditiva e integração de dados para apoiar o SUS no monitoramento de pacientes oncológicos."
+   * Botões: "Ver solução" e "Assistir demo"
+
+2. Problema
+
+   * Diagnóstico tardio
+   * Informações fragmentadas
+   * Dificuldade de acompanhamento
+   * Desigualdade no acesso ao cuidado oncológico
+
+3. Solução
+
+   * Plataforma de monitoramento oncológico
+   * Classificação de risco
+   * Alertas inteligentes
+   * Dashboard para gestores e profissionais de saúde
+
+4. Como funciona
+
+   * Cadastro do paciente
+   * Triagem clínica
+   * Análise de risco com IA
+   * Encaminhamento
+   * Acompanhamento e alertas
+
+5. Tecnologias
+
+   * Power Platform
+   * Inteligência Artificial
+   * Machine Learning
+   * Big Data
+   * Power BI
+   * IoT e dispositivos vestíveis
+   * Criptografia e LGPD
+
+6. Protótipo/MVP
+
+   * Criar uma seção com mockups ou cards representando telas do sistema:
+     Pacientes, Triagens, Exames, Encaminhamentos, Unidades de Saúde, Dashboard e Análise Inteligente de Risco.
+   * Incluir espaço para adicionar prints reais posteriormente.
+   * Incluir botão "Ver apresentação" e "Ver vídeo demo".
+
+7. Impacto esperado
+
+   * Redução do tempo de encaminhamento
+   * Melhoria no acompanhamento clínico
+   * Otimização dos recursos do SUS
+   * Ampliação do acesso em regiões com menor infraestrutura
+
+8. ODS
+
+   * ODS 3: Saúde e Bem-Estar
+   * ODS 9: Indústria, Inovação e Infraestrutura
+   * ODS 10: Redução das Desigualdades
+   * ODS 17: Parcerias e Meios de Implementação
+
+9. Equipe
+
+   * Jasmine de Sá Araujo
+   * Fundadora, Product Owner e Desenvolvedora da Solução
+   * Responsável pela concepção, MVP, arquitetura tecnológica, IA e estratégia de validação.
+
+10. Contato
+
+* Nome: Jasmine de Sá Araujo
+* E-mail: [jasminedesaraujo@gmail.com](mailto:jasminedesaraujo@gmail.com)
+* Cidade: Brasília/DF
+
+Conteúdo do pitch:
+"O OncoTrack SUS é uma plataforma inteligente de monitoramento oncológico que utiliza Inteligência Artificial, análise preditiva e integração de dados para apoiar profissionais de saúde no rastreamento, priorização e acompanhamento de pacientes com suspeita ou diagnóstico de câncer. A solução reduz atrasos no atendimento, otimiza recursos do SUS e amplia o acesso ao cuidado especializado por meio de alertas inteligentes e dashboards clínicos."
+
+Requisitos técnicos:
+
+* Usar React, Vite e Tailwind CSS
+* Criar componentes bem organizados
+* Usar ícones da biblioteca Lucide React
+* Criar navegação por âncoras
+* Ter botão flutuante de WhatsApp ou contato
+* Preparar o projeto para deploy público no Replit
+* Deixar o código limpo, comentado e fácil de editar

@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/"
+title = "OncoTrack SUS"
+version = "1.0.0"
+id = "artifacts/oncotrack-sus"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 18476
+
+[services.development]
+run = "pnpm --filter @workspace/oncotrack-sus run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/oncotrack-sus", "run", "build" ]
+publicDir = "artifacts/oncotrack-sus/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "18476"
+BASE_PATH = "/"
