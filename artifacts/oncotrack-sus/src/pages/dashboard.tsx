@@ -5,8 +5,13 @@ import {
   Users, ClipboardList, FlaskConical, ArrowRightLeft, Building2,
   LayoutDashboard, BrainCircuit, LogOut, Menu, Bell,
   TrendingUp, TrendingDown, AlertTriangle, CheckCircle2, Clock,
-  ChevronRight, Activity, User, Download, FileText, FileSpreadsheet, X
+  ChevronRight, Activity, User, Download, FileText, FileSpreadsheet, X,
+  ChevronsUpDown, ChevronUp, ChevronDown
 } from "lucide-react";
+import {
+  BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer,
+  PieChart, Pie, Cell, Legend
+} from "recharts";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useAuth } from "@/hooks/use-auth";
@@ -65,6 +70,22 @@ const MOCK_RISCO = [
   { patient: "Ana Lucia Ferreira", score: 74, category: "Alto", factors: ["HPV positivo", "ASCUS no Papanicolau"], recommendation: "Colposcopia em 14 dias" },
   { patient: "João Carlos Oliveira", score: 51, category: "Médio", factors: ["PSA elevado", "67 anos"], recommendation: "Biopsia de próstata em 30 dias" },
   { patient: "Francisca Nunes Costa", score: 28, category: "Baixo", factors: ["Colonoscopia normal", "Sem sintomas"], recommendation: "Revisão em 12 meses" },
+];
+
+const MONTHLY_TRIAGENS = [
+  { month: "Jan", triagens: 89 },
+  { month: "Fev", triagens: 102 },
+  { month: "Mar", triagens: 95 },
+  { month: "Abr", triagens: 118 },
+  { month: "Mai", triagens: 132 },
+  { month: "Jun", triagens: 342 },
+];
+
+const RISK_DISTRIBUTION = [
+  { name: "Crítico", value: 18, color: "#f87171" },
+  { name: "Alto", value: 156, color: "#fb923c" },
+  { name: "Médio", value: 487, color: "#fbbf24" },
+  { name: "Baixo", value: 623, color: "#34d399" },
 ];
 
 const RISK_COLOR: Record<string, string> = {
@@ -263,17 +284,40 @@ function ExportMenu<T extends Record<string, unknown>>({
   );
 }
 
+function SortIcon({ col, sortKey, sortDir }: { col: string; sortKey: string; sortDir: "asc" | "desc" }) {
+  if (col !== sortKey) return <ChevronsUpDown className="h-3 w-3 opacity-30 ml-1 inline" />;
+  return sortDir === "asc"
+    ? <ChevronUp className="h-3 w-3 text-primary ml-1 inline" />
+    : <ChevronDown className="h-3 w-3 text-primary ml-1 inline" />;
+}
+
 function TableModule<T extends Record<string, unknown>>({
   title, description, icon, data, columns,
 }: {
   title: string; description: string; icon: React.ReactNode;
   data: T[];
-  columns: { key: keyof T; label: string; render?: (v: T) => React.ReactNode }[];
+  columns: { key: keyof T; label: string; render?: (v: T) => React.ReactNode; sortable?: boolean }[];
 }) {
   const [search, setSearch] = useState("");
-  const filtered = data.filter(row =>
-    Object.values(row).some(v => String(v).toLowerCase().includes(search.toLowerCase()))
-  );
+  const [sortKey, setSortKey] = useState<keyof T | null>(null);
+  const [sortDir, setSortDir] = useState<"asc" | "desc">("asc");
+
+  const handleSort = (key: keyof T) => {
+    if (sortKey === key) setSortDir(d => d === "asc" ? "desc" : "asc");
+    else { setSortKey(key); setSortDir("asc"); }
+  };
+
+  const filtered = data
+    .filter(row => Object.values(row).some(v => String(v).toLowerCase().includes(search.toLowerCase())))
+    .sort((a, b) => {
+      if (!sortKey) return 0;
+      const av = String(a[sortKey] ?? "");
+      const bv = String(b[sortKey] ?? "");
+      const num_a = parseFloat(av), num_b = parseFloat(bv);
+      const cmp = !isNaN(num_a) && !isNaN(num_b) ? num_a - num_b : av.localeCompare(bv, "pt-BR");
+      return sortDir === "asc" ? cmp : -cmp;
+    });
+
   const exportCols = columns.map(c => ({ key: c.key, label: c.label }));
 
   return (
@@ -302,8 +346,15 @@ function TableModule<T extends Record<string, unknown>>({
             <thead>
               <tr className="border-b border-border bg-muted/30">
                 {columns.map(col => (
-                  <th key={String(col.key)} className="text-left px-4 py-3 text-xs font-semibold text-muted-foreground uppercase tracking-wider whitespace-nowrap">
+                  <th
+                    key={String(col.key)}
+                    onClick={() => col.sortable !== false && handleSort(col.key)}
+                    className={`text-left px-4 py-3 text-xs font-semibold text-muted-foreground uppercase tracking-wider whitespace-nowrap select-none ${col.sortable !== false ? "cursor-pointer hover:text-foreground transition-colors" : ""}`}
+                  >
                     {col.label}
+                    {col.sortable !== false && (
+                      <SortIcon col={String(col.key)} sortKey={String(sortKey)} sortDir={sortDir} />
+                    )}
                   </th>
                 ))}
               </tr>
@@ -332,11 +383,18 @@ function TableModule<T extends Record<string, unknown>>({
             {filtered.length} registro{filtered.length !== 1 ? "s" : ""}
             {filtered.length !== data.length ? ` (de ${data.length})` : ""}
           </span>
-          {filtered.length !== data.length && (
-            <button onClick={() => setSearch("")} className="flex items-center gap-1 text-primary hover:underline">
-              <X className="h-3 w-3" /> Limpar filtro
-            </button>
-          )}
+          <div className="flex items-center gap-3">
+            {sortKey && (
+              <button onClick={() => { setSortKey(null); setSortDir("asc"); }} className="flex items-center gap-1 text-muted-foreground hover:text-primary transition-colors">
+                <X className="h-3 w-3" /> Limpar ordem
+              </button>
+            )}
+            {filtered.length !== data.length && (
+              <button onClick={() => setSearch("")} className="flex items-center gap-1 text-primary hover:underline">
+                <X className="h-3 w-3" /> Limpar filtro
+              </button>
+            )}
+          </div>
         </div>
       </div>
     </div>
@@ -372,9 +430,61 @@ function OverviewModule() {
           </motion.div>
         ))}
       </div>
+      {/* Charts row */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <div className="bg-card border border-border rounded-xl p-5">
-          <h3 className="font-semibold mb-4 flex items-center gap-2">
+          <h3 className="font-semibold mb-4 flex items-center gap-2 text-sm">
+            <ClipboardList className="h-4 w-4 text-primary" /> Triagens por mês (2026)
+          </h3>
+          <ResponsiveContainer width="100%" height={180}>
+            <BarChart data={MONTHLY_TRIAGENS} margin={{ top: 0, right: 0, left: -20, bottom: 0 }}>
+              <XAxis dataKey="month" tick={{ fontSize: 11, fill: "hsl(var(--muted-foreground))" }} axisLine={false} tickLine={false} />
+              <YAxis tick={{ fontSize: 11, fill: "hsl(var(--muted-foreground))" }} axisLine={false} tickLine={false} />
+              <Tooltip
+                contentStyle={{ background: "hsl(var(--popover))", border: "1px solid hsl(var(--border))", borderRadius: 8, fontSize: 12 }}
+                itemStyle={{ color: "hsl(var(--foreground))" }}
+                cursor={{ fill: "hsl(var(--muted)/0.3)" }}
+              />
+              <Bar dataKey="triagens" fill="hsl(var(--primary))" radius={[4, 4, 0, 0]} maxBarSize={40} />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+        <div className="bg-card border border-border rounded-xl p-5">
+          <h3 className="font-semibold mb-1 flex items-center gap-2 text-sm">
+            <AlertTriangle className="h-4 w-4 text-amber-400" /> Distribuição por risco
+          </h3>
+          <p className="text-xs text-muted-foreground mb-3">1.284 pacientes ativos</p>
+          <div className="flex items-center gap-4">
+            <ResponsiveContainer width="55%" height={160}>
+              <PieChart>
+                <Pie data={RISK_DISTRIBUTION} cx="50%" cy="50%" innerRadius={45} outerRadius={70} paddingAngle={3} dataKey="value">
+                  {RISK_DISTRIBUTION.map((entry, i) => <Cell key={i} fill={entry.color} />)}
+                </Pie>
+                <Tooltip
+                  contentStyle={{ background: "hsl(var(--popover))", border: "1px solid hsl(var(--border))", borderRadius: 8, fontSize: 12 }}
+                  itemStyle={{ color: "hsl(var(--foreground))" }}
+                />
+              </PieChart>
+            </ResponsiveContainer>
+            <div className="flex-1 space-y-2">
+              {RISK_DISTRIBUTION.map((r, i) => (
+                <div key={i} className="flex items-center justify-between text-xs">
+                  <div className="flex items-center gap-1.5">
+                    <span className="w-2.5 h-2.5 rounded-sm flex-shrink-0" style={{ background: r.color }} />
+                    <span className="text-muted-foreground">{r.name}</span>
+                  </div>
+                  <span className="font-semibold tabular-nums">{r.value}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Alerts & activity row */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <div className="bg-card border border-border rounded-xl p-5">
+          <h3 className="font-semibold mb-4 flex items-center gap-2 text-sm">
             <AlertTriangle className="h-4 w-4 text-red-400" /> Pacientes críticos
           </h3>
           <div className="space-y-3">
@@ -390,7 +500,7 @@ function OverviewModule() {
           </div>
         </div>
         <div className="bg-card border border-border rounded-xl p-5">
-          <h3 className="font-semibold mb-4 flex items-center gap-2">
+          <h3 className="font-semibold mb-4 flex items-center gap-2 text-sm">
             <Clock className="h-4 w-4 text-amber-400" /> Atividade recente
           </h3>
           <div className="space-y-3">

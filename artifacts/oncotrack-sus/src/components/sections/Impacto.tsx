@@ -1,29 +1,67 @@
-import { motion } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import { Timer, HeartPulse, TrendingDown, Globe } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+
+function CountUp({ target, suffix = "", duration = 1600 }: { target: number; suffix?: string; duration?: number }) {
+  const [count, setCount] = useState(0);
+  const ref = useRef<HTMLSpanElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-60px" });
+
+  useEffect(() => {
+    if (!inView) return;
+    const startTime = performance.now();
+    const animate = (now: number) => {
+      const progress = Math.min((now - startTime) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      setCount(Math.floor(eased * target));
+      if (progress < 1) requestAnimationFrame(animate);
+      else setCount(target);
+    };
+    requestAnimationFrame(animate);
+  }, [inView, target, duration]);
+
+  return <span ref={ref}>{count}{suffix}</span>;
+}
 
 const impacts = [
   {
-    icon: <Timer className="h-8 w-8 text-primary" />,
-    metric: "Menos espera",
-    title: "Redução no tempo de encaminhamento",
+    icon: <Timer className="h-7 w-7 text-primary" />,
+    value: 60, suffix: "%",
+    color: "text-primary",
+    bgColor: "bg-primary/10",
+    borderColor: "border-primary/20 hover:border-primary/40",
+    label: "Redução estimada",
+    title: "Menos tempo até o diagnóstico",
     description: "Alertas automáticos e fluxo priorizado reduzem drasticamente o intervalo entre suspeita e consulta especializada."
   },
   {
-    icon: <HeartPulse className="h-8 w-8 text-secondary" />,
-    metric: "Cuidado contínuo",
-    title: "Melhoria no acompanhamento clínico",
+    icon: <HeartPulse className="h-7 w-7 text-secondary" />,
+    value: 85, suffix: "%",
+    color: "text-secondary",
+    bgColor: "bg-secondary/10",
+    borderColor: "border-secondary/20 hover:border-secondary/40",
+    label: "Melhoria esperada",
+    title: "Mais pacientes em acompanhamento",
     description: "Monitoramento longitudinal ativo garante que nenhum paciente caia no esquecimento durante a espera por diagnóstico."
   },
   {
-    icon: <TrendingDown className="h-8 w-8 text-primary" />,
-    metric: "Mais eficiência",
+    icon: <TrendingDown className="h-7 w-7 text-violet-400" />,
+    value: 40, suffix: "%",
+    color: "text-violet-400",
+    bgColor: "bg-violet-400/10",
+    borderColor: "border-violet-400/20 hover:border-violet-400/40",
+    label: "Ganho operacional",
     title: "Otimização dos recursos do SUS",
     description: "Priorização inteligente reduz consultas desnecessárias e direciona recursos para quem mais precisa, no momento certo."
   },
   {
-    icon: <Globe className="h-8 w-8 text-secondary" />,
-    metric: "Cobertura ampliada",
-    title: "Mais acesso em regiões periféricas",
+    icon: <Globe className="h-7 w-7 text-amber-400" />,
+    value: 200, suffix: "+",
+    color: "text-amber-400",
+    bgColor: "bg-amber-400/10",
+    borderColor: "border-amber-400/20 hover:border-amber-400/40",
+    label: "Municípios atendíveis",
+    title: "Cobertura nacional escalável",
     description: "Plataforma digital reduz barreiras geográficas, levando o rastreio especializado a regiões com menor infraestrutura oncológica."
   }
 ];
@@ -69,14 +107,19 @@ export function Impacto() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="group flex gap-5 p-6 bg-card border border-border rounded-xl hover:border-primary/30 hover:shadow-md hover:shadow-primary/5 transition-all duration-300"
+              className={`group flex gap-5 p-6 bg-card border rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-black/10 ${item.borderColor}`}
             >
-              <div className="flex-shrink-0 w-16 h-16 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+              <div className={`flex-shrink-0 w-16 h-16 rounded-xl ${item.bgColor} flex items-center justify-center`}>
                 {item.icon}
               </div>
-              <div>
-                <span className="text-xs font-bold uppercase tracking-widest text-primary mb-1 block">{item.metric}</span>
-                <h3 className="font-bold text-lg mb-2">{item.title}</h3>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-baseline gap-2 mb-1">
+                  <span className={`text-4xl font-black tabular-nums ${item.color}`}>
+                    <CountUp target={item.value} suffix={item.suffix} duration={1400 + index * 100} />
+                  </span>
+                  <span className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">{item.label}</span>
+                </div>
+                <h3 className="font-bold text-base mb-1.5">{item.title}</h3>
                 <p className="text-muted-foreground text-sm leading-relaxed">{item.description}</p>
               </div>
             </motion.div>
