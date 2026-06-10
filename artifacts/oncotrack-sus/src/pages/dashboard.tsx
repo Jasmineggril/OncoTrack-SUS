@@ -3,9 +3,9 @@ import { useLocation } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Users, ClipboardList, FlaskConical, ArrowRightLeft, Building2,
-  LayoutDashboard, BrainCircuit, LogOut, Menu, X, Bell, Search,
+  LayoutDashboard, BrainCircuit, LogOut, Menu, Bell,
   TrendingUp, TrendingDown, AlertTriangle, CheckCircle2, Clock,
-  ChevronRight, Activity, User
+  ChevronRight, Activity, User, Download, FileText, FileSpreadsheet, X
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -69,8 +69,11 @@ const MOCK_RISCO = [
 
 const RISK_COLOR: Record<string, string> = {
   "Crítico": "text-red-400 bg-red-400/10 border-red-400/30",
+  "Urgente": "text-red-400 bg-red-400/10 border-red-400/30",
   "Alto": "text-orange-400 bg-orange-400/10 border-orange-400/30",
+  "Alta": "text-orange-400 bg-orange-400/10 border-orange-400/30",
   "Médio": "text-amber-400 bg-amber-400/10 border-amber-400/30",
+  "Normal": "text-secondary bg-secondary/10 border-secondary/30",
   "Baixo": "text-secondary bg-secondary/10 border-secondary/30",
 };
 
@@ -105,6 +108,241 @@ function RiskBadge({ risk }: { risk: string }) {
   );
 }
 
+function exportCSV<T extends Record<string, unknown>>(
+  data: T[],
+  columns: { key: keyof T; label: string }[],
+  filename: string
+) {
+  const header = columns.map(c => `"${c.label}"`).join(",");
+  const rows = data.map(row =>
+    columns.map(c => `"${String(row[c.key] ?? "").replace(/"/g, '""')}"`).join(",")
+  );
+  const csv = [header, ...rows].join("\r\n");
+  const blob = new Blob(["\uFEFF" + csv], { type: "text/csv;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function exportPDF<T extends Record<string, unknown>>(
+  data: T[],
+  columns: { key: keyof T; label: string }[],
+  title: string
+) {
+  const dateStr = new Date().toLocaleDateString("pt-BR");
+  const headerRow = columns.map(c =>
+    `<th style="padding:8px 12px;text-align:left;background:#1e3a5f;color:#fff;font-size:11px;text-transform:uppercase;letter-spacing:.5px;">${c.label}</th>`
+  ).join("");
+  const bodyRows = data.map((row, i) =>
+    `<tr style="background:${i % 2 === 0 ? "#f8fafc" : "#fff"};">` +
+    columns.map(c =>
+      `<td style="padding:7px 12px;font-size:12px;border-bottom:1px solid #e2e8f0;">${String(row[c.key] ?? "")}</td>`
+    ).join("") +
+    `</tr>`
+  ).join("");
+
+  const html = `<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8">
+  <title>${title} — OncoTrack SUS</title>
+  <style>
+    body{font-family:Arial,sans-serif;margin:0;padding:24px;color:#1a202c;}
+    .header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;padding-bottom:12px;border-bottom:2px solid #0ea5e9;}
+    .logo-area h1{font-size:18px;color:#0ea5e9;margin:0 0 2px;}
+    .logo-area p{font-size:11px;color:#64748b;margin:0;}
+    .meta{text-align:right;font-size:11px;color:#64748b;}
+    table{width:100%;border-collapse:collapse;margin-top:8px;}
+    .footer{margin-top:16px;font-size:10px;color:#94a3b8;text-align:center;}
+    @media print{body{padding:0;} .no-print{display:none;}}
+  </style></head><body>
+  <div class="header">
+    <div class="logo-area">
+      <h1>OncoTrack SUS — ${title}</h1>
+      <p>Plataforma de Monitoramento Oncológico · Sistema Único de Saúde</p>
+    </div>
+    <div class="meta"><strong>Gerado em:</strong> ${dateStr}<br/><strong>Total:</strong> ${data.length} registro${data.length !== 1 ? "s" : ""}</div>
+  </div>
+  <table><thead><tr>${headerRow}</tr></thead><tbody>${bodyRows}</tbody></table>
+  <div class="footer">OncoTrack SUS — Documento gerado automaticamente. Uso restrito a profissionais e gestores do SUS.</div>
+  <div class="no-print" style="margin-top:16px;text-align:center;">
+    <button onclick="window.print()" style="background:#0ea5e9;color:#fff;border:none;padding:8px 20px;border-radius:6px;cursor:pointer;font-size:13px;">Imprimir / Salvar como PDF</button>
+  </div>
+  <script>setTimeout(()=>window.print(),400)</script>
+  </body></html>`;
+
+  const win = window.open("", "_blank");
+  if (win) { win.document.write(html); win.document.close(); }
+}
+
+function ExportMenu<T extends Record<string, unknown>>({
+  data, filtered, columns, title,
+}: {
+  data: T[]; filtered: T[];
+  columns: { key: keyof T; label: string }[];
+  title: string;
+}) {
+  const [open, setOpen] = useState(false);
+  const filename = title.toLowerCase().replace(/\s+/g, "-");
+
+  return (
+    <div className="relative">
+      <Button
+        variant="outline" size="sm"
+        className="gap-2 bg-transparent"
+        onClick={() => setOpen(o => !o)}
+        data-testid="button-export"
+      >
+        <Download className="h-3.5 w-3.5" />
+        Exportar
+      </Button>
+      <AnimatePresence>
+        {open && (
+          <>
+            <div className="fixed inset-0 z-10" onClick={() => setOpen(false)} />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: -4 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: -4 }}
+              transition={{ duration: 0.12 }}
+              className="absolute right-0 top-full mt-1.5 z-20 bg-popover border border-border rounded-xl shadow-xl shadow-black/20 w-60 py-1.5 overflow-hidden"
+            >
+              <p className="px-3 py-1.5 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                Exportar dados
+              </p>
+              <button
+                onClick={() => { exportCSV(filtered, columns, `${filename}-filtrados.csv`); setOpen(false); }}
+                className="w-full flex items-center gap-3 px-3 py-2 text-sm hover:bg-muted/50 transition-colors"
+                data-testid="export-csv-filtered"
+              >
+                <FileSpreadsheet className="h-4 w-4 text-secondary flex-shrink-0" />
+                <div className="text-left">
+                  <p className="font-medium">CSV — filtrados</p>
+                  <p className="text-xs text-muted-foreground">{filtered.length} linha{filtered.length !== 1 ? "s" : ""}</p>
+                </div>
+              </button>
+              <button
+                onClick={() => { exportCSV(data, columns, `${filename}-completo.csv`); setOpen(false); }}
+                className="w-full flex items-center gap-3 px-3 py-2 text-sm hover:bg-muted/50 transition-colors"
+                data-testid="export-csv-all"
+              >
+                <FileSpreadsheet className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+                <div className="text-left">
+                  <p className="font-medium">CSV — todos</p>
+                  <p className="text-xs text-muted-foreground">{data.length} linha{data.length !== 1 ? "s" : ""}</p>
+                </div>
+              </button>
+              <div className="h-px bg-border mx-3 my-1" />
+              <button
+                onClick={() => { exportPDF(filtered, columns, title); setOpen(false); }}
+                className="w-full flex items-center gap-3 px-3 py-2 text-sm hover:bg-muted/50 transition-colors"
+                data-testid="export-pdf-filtered"
+              >
+                <FileText className="h-4 w-4 text-primary flex-shrink-0" />
+                <div className="text-left">
+                  <p className="font-medium">PDF — filtrados</p>
+                  <p className="text-xs text-muted-foreground">Abre janela de impressão</p>
+                </div>
+              </button>
+              <button
+                onClick={() => { exportPDF(data, columns, title); setOpen(false); }}
+                className="w-full flex items-center gap-3 px-3 py-2 text-sm hover:bg-muted/50 transition-colors"
+                data-testid="export-pdf-all"
+              >
+                <FileText className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+                <div className="text-left">
+                  <p className="font-medium">PDF — todos</p>
+                  <p className="text-xs text-muted-foreground">Abre janela de impressão</p>
+                </div>
+              </button>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
+function TableModule<T extends Record<string, unknown>>({
+  title, description, icon, data, columns,
+}: {
+  title: string; description: string; icon: React.ReactNode;
+  data: T[];
+  columns: { key: keyof T; label: string; render?: (v: T) => React.ReactNode }[];
+}) {
+  const [search, setSearch] = useState("");
+  const filtered = data.filter(row =>
+    Object.values(row).some(v => String(v).toLowerCase().includes(search.toLowerCase()))
+  );
+  const exportCols = columns.map(c => ({ key: c.key, label: c.label }));
+
+  return (
+    <div className="space-y-5">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div>
+          <h2 className="text-2xl font-bold flex items-center gap-2">{icon}{title}</h2>
+          <p className="text-muted-foreground text-sm mt-0.5">{description}</p>
+        </div>
+        <div className="flex items-center gap-2 flex-wrap">
+          <div className="relative w-full sm:w-52">
+            <Activity className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Input
+              placeholder="Buscar…"
+              value={search}
+              onChange={e => setSearch(e.target.value)}
+              className="pl-9 h-9 text-sm"
+            />
+          </div>
+          <ExportMenu data={data} filtered={filtered} columns={exportCols} title={title} />
+        </div>
+      </div>
+      <div className="bg-card border border-border rounded-xl overflow-hidden">
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm">
+            <thead>
+              <tr className="border-b border-border bg-muted/30">
+                {columns.map(col => (
+                  <th key={String(col.key)} className="text-left px-4 py-3 text-xs font-semibold text-muted-foreground uppercase tracking-wider whitespace-nowrap">
+                    {col.label}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {filtered.length === 0 ? (
+                <tr>
+                  <td colSpan={columns.length} className="text-center py-10 text-muted-foreground text-sm">
+                    Nenhum registro encontrado
+                  </td>
+                </tr>
+              ) : filtered.map((row, i) => (
+                <tr key={i} className="border-b border-border/50 last:border-0 hover:bg-muted/20 transition-colors">
+                  {columns.map(col => (
+                    <td key={String(col.key)} className="px-4 py-3 whitespace-nowrap">
+                      {col.render ? col.render(row) : String(row[col.key] ?? "")}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <div className="px-4 py-3 border-t border-border bg-muted/20 text-xs text-muted-foreground flex items-center justify-between">
+          <span>
+            {filtered.length} registro{filtered.length !== 1 ? "s" : ""}
+            {filtered.length !== data.length ? ` (de ${data.length})` : ""}
+          </span>
+          {filtered.length !== data.length && (
+            <button onClick={() => setSearch("")} className="flex items-center gap-1 text-primary hover:underline">
+              <X className="h-3 w-3" /> Limpar filtro
+            </button>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function OverviewModule() {
   const stats = [
     { label: "Pacientes monitorados", value: "1.284", change: "+12%", trend: "up", icon: <Users className="h-5 w-5 text-primary" /> },
@@ -136,7 +374,9 @@ function OverviewModule() {
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <div className="bg-card border border-border rounded-xl p-5">
-          <h3 className="font-semibold mb-4 flex items-center gap-2"><AlertTriangle className="h-4 w-4 text-red-400" /> Pacientes críticos</h3>
+          <h3 className="font-semibold mb-4 flex items-center gap-2">
+            <AlertTriangle className="h-4 w-4 text-red-400" /> Pacientes críticos
+          </h3>
           <div className="space-y-3">
             {MOCK_RISCO.slice(0, 3).map((r, i) => (
               <div key={i} className="flex items-center justify-between py-2 border-b border-border last:border-0">
@@ -150,7 +390,9 @@ function OverviewModule() {
           </div>
         </div>
         <div className="bg-card border border-border rounded-xl p-5">
-          <h3 className="font-semibold mb-4 flex items-center gap-2"><Clock className="h-4 w-4 text-amber-400" /> Atividade recente</h3>
+          <h3 className="font-semibold mb-4 flex items-center gap-2">
+            <Clock className="h-4 w-4 text-amber-400" /> Atividade recente
+          </h3>
           <div className="space-y-3">
             {[
               { action: "Triagem registrada", patient: "Carlos Eduardo Lima", time: "Hoje, 14:32" },
@@ -173,74 +415,16 @@ function OverviewModule() {
   );
 }
 
-function TableModule<T extends Record<string, unknown>>({
-  title, description, icon, data, columns
-}: {
-  title: string; description: string; icon: React.ReactNode;
-  data: T[]; columns: { key: keyof T; label: string; render?: (v: T) => React.ReactNode }[];
-}) {
-  const [search, setSearch] = useState("");
-  const filtered = data.filter(row =>
-    Object.values(row).some(v => String(v).toLowerCase().includes(search.toLowerCase()))
-  );
-  return (
-    <div className="space-y-5">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-        <div>
-          <h2 className="text-2xl font-bold flex items-center gap-2">{icon}{title}</h2>
-          <p className="text-muted-foreground text-sm mt-0.5">{description}</p>
-        </div>
-        <div className="relative w-full sm:w-64">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input
-            placeholder="Buscar…"
-            value={search}
-            onChange={e => setSearch(e.target.value)}
-            className="pl-9 h-9 text-sm"
-          />
-        </div>
-      </div>
-      <div className="bg-card border border-border rounded-xl overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="border-b border-border bg-muted/30">
-                {columns.map(col => (
-                  <th key={String(col.key)} className="text-left px-4 py-3 text-xs font-semibold text-muted-foreground uppercase tracking-wider whitespace-nowrap">
-                    {col.label}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {filtered.length === 0 ? (
-                <tr><td colSpan={columns.length} className="text-center py-10 text-muted-foreground text-sm">Nenhum registro encontrado</td></tr>
-              ) : filtered.map((row, i) => (
-                <tr key={i} className="border-b border-border/50 last:border-0 hover:bg-muted/20 transition-colors">
-                  {columns.map(col => (
-                    <td key={String(col.key)} className="px-4 py-3 whitespace-nowrap">
-                      {col.render ? col.render(row) : String(row[col.key] ?? "")}
-                    </td>
-                  ))}
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        <div className="px-4 py-3 border-t border-border bg-muted/20 text-xs text-muted-foreground">
-          {filtered.length} registro{filtered.length !== 1 ? "s" : ""}
-        </div>
-      </div>
-    </div>
-  );
-}
-
 function RiscoIAModule() {
   return (
     <div className="space-y-5">
       <div>
-        <h2 className="text-2xl font-bold flex items-center gap-2"><BrainCircuit className="h-6 w-6 text-secondary" /> Análise de Risco com IA</h2>
-        <p className="text-muted-foreground text-sm mt-0.5">Classificação automática de urgência por algoritmos de Machine Learning</p>
+        <h2 className="text-2xl font-bold flex items-center gap-2">
+          <BrainCircuit className="h-6 w-6 text-secondary" /> Análise de Risco com IA
+        </h2>
+        <p className="text-muted-foreground text-sm mt-0.5">
+          Classificação automática de urgência por algoritmos de Machine Learning
+        </p>
       </div>
       <div className="grid grid-cols-1 gap-4">
         {MOCK_RISCO.map((r, i) => (
@@ -275,9 +459,10 @@ function RiscoIAModule() {
             </div>
             <div className="mt-4 pt-3 border-t border-border flex items-center gap-2">
               <CheckCircle2 className="h-4 w-4 text-primary flex-shrink-0" />
-              <p className="text-sm text-muted-foreground"><span className="text-foreground font-medium">Recomendação da IA:</span> {r.recommendation}</p>
+              <p className="text-sm text-muted-foreground">
+                <span className="text-foreground font-medium">Recomendação da IA:</span> {r.recommendation}
+              </p>
             </div>
-            {/* Score bar */}
             <div className="mt-3 h-1.5 bg-muted rounded-full overflow-hidden">
               <div
                 className={`h-full rounded-full transition-all duration-700 ${r.score >= 80 ? "bg-red-400" : r.score >= 60 ? "bg-orange-400" : r.score >= 40 ? "bg-amber-400" : "bg-secondary"}`}
@@ -332,7 +517,7 @@ export default function Dashboard() {
             { key: "id", label: "ID" },
             { key: "patient", label: "Paciente" },
             { key: "protocol", label: "Protocolo" },
-            { key: "score", label: "Score", render: (r) => <span className="font-mono font-bold">{r.score as number}</span> },
+            { key: "score", label: "Score" },
             { key: "risk", label: "Risco", render: (r) => <RiskBadge risk={r.risk as string} /> },
             { key: "professional", label: "Profissional" },
             { key: "date", label: "Data" },
@@ -374,7 +559,8 @@ export default function Dashboard() {
             { key: "name", label: "Nome" },
             { key: "city", label: "Cidade" },
             { key: "type", label: "Tipo" },
-            { key: "available", label: "Vagas disponíveis", render: (r) => <span className={`font-bold ${(r.available as number) === 0 ? "text-red-400" : "text-secondary"}`}>{r.available as number}</span> },
+            { key: "capacity", label: "Capacidade" },
+            { key: "available", label: "Vagas", render: (r) => <span className={`font-bold ${(r.available as number) === 0 ? "text-red-400" : "text-secondary"}`}>{r.available as number}</span> },
             { key: "status", label: "Status", render: (r) => <StatusBadge status={r.status as string} /> },
           ]}
         />
@@ -386,7 +572,6 @@ export default function Dashboard() {
 
   const Sidebar = ({ mobile = false }: { mobile?: boolean }) => (
     <div className={`flex flex-col h-full ${mobile ? "" : "w-64 flex-shrink-0"}`}>
-      {/* Logo */}
       <div className="flex items-center gap-2.5 px-5 py-5 border-b border-border">
         <img src="/oncotrack-logo.png" alt="OncoTrack SUS" className="h-8 w-auto" />
         <div className="min-w-0">
@@ -394,8 +579,6 @@ export default function Dashboard() {
           <p className="text-xs text-muted-foreground truncate">Dashboard Clínico</p>
         </div>
       </div>
-
-      {/* Nav */}
       <nav className="flex-1 py-4 px-3 space-y-1 overflow-y-auto">
         {NAV_ITEMS.map(item => {
           const Icon = item.icon;
@@ -418,8 +601,6 @@ export default function Dashboard() {
           );
         })}
       </nav>
-
-      {/* User info + logout */}
       <div className="border-t border-border p-4">
         <div className="flex items-center gap-3 mb-3">
           <div className="w-9 h-9 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white text-sm font-bold flex-shrink-0">
@@ -444,26 +625,20 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-background flex">
-      {/* Desktop sidebar */}
       <aside className="hidden lg:flex flex-col w-64 flex-shrink-0 border-r border-border bg-card/50">
         <Sidebar />
       </aside>
 
-      {/* Mobile sidebar overlay */}
       <AnimatePresence>
         {sidebarOpen && (
           <>
             <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
               className="fixed inset-0 z-40 bg-background/80 backdrop-blur-sm lg:hidden"
               onClick={() => setSidebarOpen(false)}
             />
             <motion.aside
-              initial={{ x: -280 }}
-              animate={{ x: 0 }}
-              exit={{ x: -280 }}
+              initial={{ x: -280 }} animate={{ x: 0 }} exit={{ x: -280 }}
               transition={{ type: "spring", damping: 25, stiffness: 200 }}
               className="fixed left-0 top-0 bottom-0 z-50 w-72 bg-card border-r border-border flex flex-col lg:hidden shadow-2xl"
             >
@@ -473,9 +648,7 @@ export default function Dashboard() {
         )}
       </AnimatePresence>
 
-      {/* Main */}
       <div className="flex-1 flex flex-col min-w-0">
-        {/* Topbar */}
         <header className="sticky top-0 z-30 flex items-center justify-between px-4 md:px-6 h-14 border-b border-border bg-background/95 backdrop-blur-sm flex-shrink-0">
           <div className="flex items-center gap-3">
             <button
@@ -507,7 +680,6 @@ export default function Dashboard() {
           </div>
         </header>
 
-        {/* Content */}
         <main className="flex-1 p-4 md:p-6 overflow-auto">
           <AnimatePresence mode="wait">
             <motion.div

@@ -10,6 +10,7 @@ const NAV_LINKS = [
   { href: "#tecnologias", label: "Tecnologias" },
   { href: "#prototipo", label: "Protótipo" },
   { href: "#impacto", label: "Impacto" },
+  { href: "#apresentacao", label: "Apresentação" },
   { href: "#equipe", label: "Equipe" },
   { href: "#contato", label: "Contato" },
 ];

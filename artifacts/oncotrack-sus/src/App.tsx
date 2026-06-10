@@ -17,6 +17,7 @@ import { Impacto } from "@/components/sections/Impacto";
 import { ODS } from "@/components/sections/ODS";
 import { Equipe } from "@/components/sections/Equipe";
 import { Contato } from "@/components/sections/Contato";
+import { Apresentacao } from "@/components/sections/Apresentacao";
 import { FloatingWhatsApp } from "@/components/ui/floating-whatsapp";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 
@@ -35,6 +36,7 @@ function Home() {
         <Prototipo />
         <Impacto />
         <ODS />
+        <Apresentacao />
         <Equipe />
         <Contato />
       </main>
