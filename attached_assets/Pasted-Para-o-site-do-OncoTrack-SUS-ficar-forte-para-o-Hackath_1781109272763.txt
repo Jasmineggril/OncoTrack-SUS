@@ -1,0 +1,218 @@
+Para o **site do OncoTrack SUS** ficar forte para o Hackathon SUS, Sebrae e possíveis avaliadores, eu não deixaria faltar estes itens:
+
+# 1. Hero (Primeira Tela)
+
+✅ Logo
+
+✅ Nome OncoTrack SUS
+
+✅ Slogan
+
+✅ Botão "Ver Solução"
+
+✅ Botão "Assistir Demonstração"
+
+✅ Imagem moderna de saúde + tecnologia
+
+---
+
+# 2. O Problema
+
+Responder:
+
+* Qual problema existe?
+* Quem sofre com ele?
+* Qual o impacto?
+
+Exemplo:
+
+* Diagnóstico tardio
+* Informações fragmentadas
+* Dificuldade de acompanhamento
+* Sobrecarga dos profissionais
+
+---
+
+# 3. A Solução
+
+Explicar claramente:
+
+* O que é o OncoTrack SUS
+* Como funciona
+* Qual benefício entrega
+
+---
+
+# 4. Como Funciona
+
+Fluxograma visual:
+
+Paciente
+↓
+Triagem
+↓
+IA
+↓
+Classificação de Risco
+↓
+Encaminhamento
+↓
+Monitoramento
+
+---
+
+# 5. Dashboard / MVP
+
+Muito importante.
+
+Mostrar prints do Power Apps:
+
+✅ Pacientes
+
+✅ Triagens
+
+✅ Exames
+
+✅ Encaminhamentos
+
+✅ Dashboard
+
+✅ Análise de Risco
+
+---
+
+# 6. Tecnologias
+
+Mostrar:
+
+* IA
+* Machine Learning
+* Big Data
+* Power Platform
+* Power BI
+* IoT
+* Cloud Computing
+
+---
+
+# 7. Diferenciais
+
+Comparar:
+
+### Sistema tradicional
+
+* Apenas registra
+* Sem IA
+* Sem priorização
+
+### OncoTrack SUS
+
+* IA
+* Alertas
+* Classificação de risco
+* Apoio à decisão
+
+---
+
+# 8. Impacto
+
+Mostrar indicadores:
+
+🎯 Menor tempo para diagnóstico
+
+🎯 Menos abandono de tratamento
+
+🎯 Mais pacientes acompanhados
+
+🎯 Melhor uso dos recursos do SUS
+
+---
+
+# 9. ODS
+
+ODS 3
+
+ODS 9
+
+ODS 10
+
+ODS 17
+
+---
+
+# 10. Sobre a Fundadora
+
+Foto sua.
+
+Mini bio:
+
+> Jasmine de Sá Araujo, estudante de Engenharia de Software, desenvolvedora de soluções digitais e idealizadora do OncoTrack SUS.
+
+---
+
+# 11. Vídeo Demo
+
+Fundamental.
+
+Mesmo que tenha apenas:
+
+* Login
+* Cadastro
+* Triagem
+* Dashboard
+
+Um vídeo de 2 minutos vale ouro.
+
+---
+
+# 12. Apresentação PDF
+
+Botão:
+
+📄 Baixar Pitch Deck
+
+---
+
+# 13. Contato
+
+Email
+
+LinkedIn
+
+Cidade
+
+---
+
+# 14. Rodapé
+
+* Copyright
+* ODS
+* Hackathon SUS
+* Termos de uso
+* Privacidade
+
+---
+
+## O que mais impressiona uma banca?
+
+1️⃣ MVP funcionando (Power Apps)
+
+2️⃣ Vídeo demonstrando
+
+3️⃣ Site profissional
+
+4️⃣ Pitch Deck
+
+5️⃣ IA aparecendo claramente
+
+Se eu fosse avaliador, a primeira coisa que eu procuraria seria:
+
+**"Onde está a Inteligência Artificial?"**
+
+Então coloque uma seção inteira chamada:
+
+🧠 **Análise Inteligente de Risco Oncológico**
+
+com um gráfico bonito e explicando que a plataforma classifica pacientes por prioridade clínica.
+
+Isso muda a percepção de "sistema de cadastro" para "healthtech inovadora". 🚀🏥💙

@@ -58,12 +58,12 @@ export function Equipe() {
 
               <h3 className="text-2xl font-bold mb-1">Jasmine de Sá Araujo</h3>
               <p className="text-sm font-semibold text-primary mb-1 tracking-wide">
-                Fundadora, Product Owner &amp; Desenvolvedora da Solução
+                Fundadora &amp; Idealizadora do OncoTrack SUS
               </p>
-              <p className="text-xs text-muted-foreground mb-5">Brasília, DF</p>
+              <p className="text-xs text-muted-foreground mb-5">Brasília, DF · Engenharia de Software</p>
 
               <p className="text-muted-foreground text-sm leading-relaxed mb-6">
-                Responsável pela concepção, desenvolvimento do MVP, arquitetura tecnológica, integração de IA e estratégia de validação do OncoTrack SUS.
+                Estudante de Engenharia de Software, desenvolvedora de soluções digitais e idealizadora do OncoTrack SUS. Responsável pela concepção, desenvolvimento do MVP, arquitetura de IA e estratégia de impacto para o Sistema Único de Saúde.
               </p>
 
               <div className="flex items-center justify-center gap-3">

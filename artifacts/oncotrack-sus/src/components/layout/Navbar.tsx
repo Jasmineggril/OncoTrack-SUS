@@ -7,10 +7,10 @@ const NAV_LINKS = [
   { href: "#problema", label: "Problema" },
   { href: "#solucao", label: "Solução" },
   { href: "#como-funciona", label: "Como Funciona" },
-  { href: "#tecnologias", label: "Tecnologias" },
   { href: "#prototipo", label: "Protótipo" },
+  { href: "#diferenciais", label: "Diferenciais" },
+  { href: "#risco-ia", label: "IA" },
   { href: "#impacto", label: "Impacto" },
-  { href: "#apresentacao", label: "Apresentação" },
   { href: "#equipe", label: "Equipe" },
   { href: "#contato", label: "Contato" },
 ];

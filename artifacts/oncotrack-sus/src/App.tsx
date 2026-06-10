@@ -18,6 +18,8 @@ import { ODS } from "@/components/sections/ODS";
 import { Equipe } from "@/components/sections/Equipe";
 import { Contato } from "@/components/sections/Contato";
 import { Apresentacao } from "@/components/sections/Apresentacao";
+import { Diferenciais } from "@/components/sections/Diferenciais";
+import { RiscoIA } from "@/components/sections/RiscoIA";
 import { FloatingWhatsApp } from "@/components/ui/floating-whatsapp";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 
@@ -34,6 +36,8 @@ function Home() {
         <ComoFunciona />
         <Tecnologias />
         <Prototipo />
+        <Diferenciais />
+        <RiscoIA />
         <Impacto />
         <ODS />
         <Apresentacao />
