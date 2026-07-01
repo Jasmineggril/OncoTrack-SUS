@@ -155,7 +155,7 @@ Utilizar tecnologia e inovação para apoiar profissionais de saúde e melhorar 
 
 ---
 
-## Hackathon SUS 2026
 
-Projeto desenvolvido para participação no **Desafio Tecnológico para o Sistema Único de Saúde – Hackathon SUS**, iniciativa voltada à criação de soluções inovadoras para a oncologia brasileira.
+
+Projeto desenvolvido para participação no **Desafio Tecnológico para o Sistema Único de Saúde**, iniciativa voltada à criação de soluções inovadoras para a oncologia brasileira.
 
