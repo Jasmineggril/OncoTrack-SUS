@@ -1,161 +1,239 @@
+<div align="center">
+
 # 🏥 OncoTrack SUS
 
-> **Transformando dados em decisões que salvam vidas.**
+### Plataforma Inteligente de Apoio à Decisão Clínica para o Sistema Único de Saúde
 
-## Sobre o Projeto
+**Transformando dados em decisões que salvam vidas.**
 
-O **OncoTrack SUS** é uma plataforma inteligente de monitoramento oncológico desenvolvida para apoiar profissionais de saúde no rastreamento, priorização e acompanhamento de pacientes com suspeita ou diagnóstico de câncer no Sistema Único de Saúde (SUS).
+<p>
+<img src="https://img.shields.io/badge/TRL-4-blue">
+<img src="https://img.shields.io/badge/Power%20Platform-Microsoft-742774">
+<img src="https://img.shields.io/badge/Artificial%20Intelligence-Enabled-success">
+<img src="https://img.shields.io/badge/SUS-HealthTech-green">
+<img src="https://img.shields.io/badge/Status-MVP%20Funcional-brightgreen">
+</p>
 
-A solução utiliza Inteligência Artificial, análise preditiva e integração de dados para reduzir atrasos no diagnóstico, otimizar recursos assistenciais e ampliar o acesso ao cuidado especializado.
+🌐 **Website:** https://onco-track-sus.vercel.app/
+
+🎥 **Vídeo Demonstrativo:** https://youtu.be/SVh4wUfJ-rE
+
+</div>
+
+---
+<img width="1536" height="1024" alt="ChatGPT Image 1 de jul  de 2026, 14_38_06" src="https://github.com/user-attachments/assets/e7366551-0e86-4b80-a794-dee17a856d1d" />
+---
+
+# 📖 Sobre o Projeto
+
+O **OncoTrack SUS** é uma plataforma inteligente desenvolvida para apoiar o monitoramento, rastreamento, priorização e acompanhamento de pacientes com suspeita ou diagnóstico de câncer no Sistema Único de Saúde (SUS).
+
+A solução combina Inteligência Artificial, Machine Learning, análise preditiva e gestão integrada de dados clínicos para apoiar profissionais de saúde na tomada de decisão, reduzir atrasos no diagnóstico e otimizar o fluxo assistencial em oncologia.
 
 ---
 
-## O Problema
+# 🚨 O Problema
 
-O câncer representa um dos maiores desafios para a saúde pública brasileira. Entre os principais obstáculos enfrentados pelo SUS estão:
+O câncer é uma das principais causas de mortalidade no Brasil.
 
-* Diagnóstico tardio;
-* Fragmentação das informações clínicas;
-* Dificuldade de acompanhamento contínuo dos pacientes;
-* Demora nos encaminhamentos;
-* Desigualdade no acesso ao tratamento especializado.
+Entretanto, diversos desafios dificultam a eficiência do atendimento oncológico no SUS:
 
-Esses fatores impactam diretamente a qualidade do atendimento e os desfechos clínicos dos pacientes.
+- Diagnóstico tardio;
+- Fragmentação das informações clínicas;
+- Longo tempo entre suspeita e tratamento;
+- Falta de priorização automática de pacientes;
+- Dificuldade de acompanhamento contínuo;
+- Desigualdade de acesso aos serviços especializados.
 
----
-
-## Nossa Solução
-
-O OncoTrack SUS funciona como uma plataforma de apoio à decisão clínica, permitindo:
-
-* Cadastro e monitoramento de pacientes;
-* Triagem clínica estruturada;
-* Classificação inteligente de risco;
-* Alertas automáticos para casos prioritários;
-* Gestão de exames e encaminhamentos;
-* Dashboards para profissionais e gestores;
-* Integração futura com dispositivos IoT e sensores biomédicos.
+Esses fatores aumentam o tempo de espera, comprometem os resultados clínicos e elevam os custos do sistema público de saúde.
 
 ---
 
-## Como Funciona
+# 💡 Nossa Solução
+
+O OncoTrack SUS atua como uma plataforma inteligente de apoio à decisão clínica.
+
+### Principais funcionalidades
+
+- ✅ Cadastro inteligente de pacientes
+- ✅ Triagem clínica estruturada
+- ✅ Classificação automática de risco
+- ✅ Alertas inteligentes
+- ✅ Gestão de exames
+- ✅ Gestão de encaminhamentos
+- ✅ Monitoramento contínuo
+- 🚧 Dashboard analítico
+- 🚧 Integração futura com dispositivos IoT
+
+---
+
+# 🔄 Fluxo da Plataforma
 
 ```text
 Paciente
-   ↓
+      │
+      ▼
 Triagem Clínica
-   ↓
+      │
+      ▼
 Análise Inteligente
-   ↓
+      │
+      ▼
 Classificação de Risco
-   ↓
+      │
+      ▼
 Encaminhamento
-   ↓
+      │
+      ▼
 Monitoramento Contínuo
 ```
 
 ---
 
-## Diferenciais
+# 🚀 Diferenciais
 
-### 🧠 Inteligência Artificial Aplicada
+## 🧠 Inteligência Artificial
 
-Utilização de modelos preditivos para apoiar a identificação de pacientes com maior risco e necessidade de atenção prioritária.
-
-### 📊 Gestão Baseada em Dados
-
-Centralização das informações clínicas e geração de indicadores estratégicos para tomada de decisão.
-
-### 🏥 Foco no SUS
-
-Solução concebida considerando os fluxos, limitações e necessidades reais da saúde pública brasileira.
-
-### 📈 Escalabilidade Nacional
-
-Arquitetura preparada para implementação em diferentes níveis de atenção à saúde em todo o território nacional.
+Aplicação de modelos preditivos para identificação de pacientes prioritários e apoio à decisão clínica.
 
 ---
 
-## Tecnologias Utilizadas
+## 📊 Gestão Baseada em Dados
 
-* Inteligência Artificial (IA)
-* Machine Learning
-* Big Data
-* Power Platform
-* Power Apps
-* Power BI
-* Computação em Nuvem
-* Internet das Coisas (IoT)
-* Análise Preditiva
-* Visualização de Dados
+Centralização das informações clínicas para geração de indicadores estratégicos.
 
 ---
 
-## Impacto Esperado
+## 🏥 Desenvolvido para o SUS
 
-* Redução do tempo entre suspeita e tratamento;
-* Melhoria do acompanhamento clínico;
-* Redução da perda de pacientes durante a jornada de cuidado;
-* Otimização dos recursos do SUS;
-* Ampliação do acesso ao atendimento especializado;
-* Apoio à tomada de decisão baseada em evidências.
+Arquitetura construída considerando os fluxos da atenção primária, especializada e hospitalar do Sistema Único de Saúde.
 
 ---
 
-## Objetivos de Desenvolvimento Sustentável (ODS)
+## 📈 Escalabilidade Nacional
 
-O projeto contribui diretamente para:
+Estrutura preparada para implantação em:
 
-* ODS 3 – Saúde e Bem-Estar
-* ODS 9 – Indústria, Inovação e Infraestrutura
-* ODS 10 – Redução das Desigualdades
-* ODS 17 – Parcerias e Meios de Implementação
-
----
-
-## Estágio de Desenvolvimento
-
-**TRL 4 – Validação Tecnológica**
-
-A solução encontra-se em fase de validação com MVP funcional em desenvolvimento, arquitetura tecnológica definida e preparação para testes com usuários e especialistas da área da saúde.
+- UBS
+- Policlínicas
+- Hospitais
+- Centros de Oncologia
+- Secretarias de Saúde
 
 ---
 
-## Equipe
+# 📈 Impacto Esperado
 
-### Jasmine de Sá Araujo
+| Indicador | Meta |
+|------------|------:|
+| Pacientes monitorados | 500 |
+| Redução do tempo de encaminhamento | 20% |
+| Instituições piloto | 1 |
+| Profissionais capacitados | 50 |
 
-**Fundadora & Idealizadora**
+Espera-se contribuir para:
 
-Responsável pela concepção da solução, modelagem do negócio, desenvolvimento do MVP, estratégia de validação e alinhamento da proposta às necessidades do SUS.
-
-### Pedro Henrique Bento Martins
-
-**Cofundador & Desenvolvedor Front-end**
-
-Responsável pela experiência do usuário, design das interfaces, prototipação e desenvolvimento visual da plataforma.
-
-### Matheus Pontieri de Lemos Silva
-
-**Co-Founder & Lead Developer**
-
-Responsável pela arquitetura tecnológica, integração dos componentes da solução e liderança do desenvolvimento técnico.
+- redução dos atrasos no diagnóstico;
+- melhoria do acompanhamento clínico;
+- diminuição do abandono do tratamento;
+- otimização dos recursos do SUS;
+- ampliação do acesso ao cuidado especializado.
 
 ---
 
-## Visão
+# 🛠 Tecnologias
 
-Ser referência nacional em monitoramento oncológico inteligente, contribuindo para um sistema de saúde mais eficiente, acessível e orientado por dados.
+## Inteligência Artificial
+
+- Inteligência Artificial
+- Machine Learning
+- Análise Preditiva
+
+## Plataforma
+
+- Microsoft Power Platform
+- Power Apps
+- Power BI
+
+## Dados
+
+- Big Data
+- Visualização de Dados
+
+## Infraestrutura
+
+- Computação em Nuvem
+- IoT *(planejado para futuras versões)*
 
 ---
 
-## Missão
+# 📊 Nível de Maturidade Tecnológica
 
-Utilizar tecnologia e inovação para apoiar profissionais de saúde e melhorar a jornada de cuidado de pacientes oncológicos no Brasil.
+**TRL 4 — Validação Tecnológica**
+
+O projeto encontra-se em fase de validação com MVP funcional, arquitetura tecnológica definida e preparação para testes em ambiente controlado.
 
 ---
 
+# 🌎 Objetivos de Desenvolvimento Sustentável
 
+- ✅ ODS 3 – Saúde e Bem-Estar
+- ✅ ODS 9 – Indústria, Inovação e Infraestrutura
+- ✅ ODS 10 – Redução das Desigualdades
+- ✅ ODS 17 – Parcerias para Implementação
 
-Projeto desenvolvido para participação no **Desafio Tecnológico para o Sistema Único de Saúde**, iniciativa voltada à criação de soluções inovadoras para a oncologia brasileira.
+---
 
+# 👥 Equipe
+
+## Jasmine de Sá Araujo
+
+**Founder • Product Owner • Power Platform**
+
+Responsável pela concepção da solução, estratégia do produto, desenvolvimento do MVP e alinhamento da plataforma às necessidades do SUS.
+
+---
+
+## Pedro Henrique Bento Martins
+
+**Co-Founder • Front-end Developer**
+
+Responsável pelo desenvolvimento da interface, experiência do usuário e identidade visual da plataforma.
+
+---
+
+## Matheus Pontieri de Lemos Silva
+
+**Co-Founder • Lead Developer**
+
+Responsável pela arquitetura da solução, integração dos componentes tecnológicos e liderança do desenvolvimento técnico.
+
+---
+
+# 🎯 Visão
+
+Ser referência nacional em monitoramento inteligente de pacientes oncológicos, contribuindo para um sistema de saúde mais eficiente, acessível e orientado por dados.
+
+---
+
+# ❤️ Missão
+
+Utilizar tecnologia, Inteligência Artificial e inovação para apoiar profissionais de saúde e melhorar a jornada de cuidado dos pacientes oncológicos no Brasil.
+
+---
+
+# 📌 Status do Projeto
+
+🟢 MVP Funcional
+
+O projeto encontra-se em desenvolvimento contínuo e foi concebido para participação no **Desafio Tecnológico para o Sistema Único de Saúde – Hackathon SUS**, iniciativa voltada à criação de soluções inovadoras para a oncologia brasileira.
+
+---
+
+<div align="center">
+
+**OncoTrack SUS**
+
+*Transformando dados em decisões que salvam vidas.*
+
+</div>
