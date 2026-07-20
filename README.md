@@ -226,7 +226,7 @@ Utilizar tecnologia, Inteligência Artificial e inovação para apoiar profissio
 
 🟢 MVP Funcional
 
-O projeto encontra-se em desenvolvimento contínuo e foi concebido para participação no **Desafio Tecnológico para o Sistema Único de Saúde – Hackathon SUS**, iniciativa voltada à criação de soluções inovadoras para a oncologia brasileira.
+O projeto encontra-se em desenvolvimento contínuo e foi concebido para participação, iniciativa voltada à criação de soluções inovadoras para a oncologia brasileira.
 
 ---
 
